@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detailed Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .calendar-container {
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .calendar-days, .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+        }
+
+        .day-name {
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 5px;
+            font-weight: bold;
+        }
+
+        .calendar-grid div {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            height: 60px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .calendar-grid div:hover {
+            background-color: #e0e0e0;
+        }
+
+        .event-form {
+            margin-top: 20px;
+        }
+
+        input, button {
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prev-month">‹</button>
+            <h1 id="month-year"></h1>
+            <button id="next-month">›</button>
+        </div>
+        <div class="calendar-days">
+            <div class="day-name">Sun</div>
+            <div class="day-name">Mon</div>
+            <div class="day-name">Tue</div>
+            <div class="day-name">Wed</div>
+            <div class="day-name">Thu</div>
+            <div class="day-name">Fri</div>
+            <div class="day-name">Sat</div>
+        </div>
+        <div id="calendar-grid" class="calendar-grid"></div>
+    </div>
+
+    <div class="event-form">
+        <h2>Add Event</h2>
+        <input type="date" id="event-date">
+        <input type="time" id="event-time">
+        <input type="text" id="event-title" placeholder="Event Title">
+        <button id="add-event">Add Event</button>
+    </div>
+
+    <script>
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+
+        let currentDate = new Date();
+
+        function renderCalendar(date) {
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const calendarGrid = document.getElementById('calendar-grid');
+            const monthYear = document.getElementById('month-year');
+            
+            monthYear.textContent = `${monthNames[month]} ${year}`;
+            
+            calendarGrid.innerHTML = '';
+            
+            // Empty slots before first day
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                calendarGrid.innerHTML += `<div></div>`;
+            }
+            
+            // Days of the month
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const cell = document.createElement('div');
+                cell.textContent = day;
+                cell.dataset.date = `${year}-${month + 1}-${day}`;
+                cell.onclick = function() {
+                    document.getElementById('event-date').value = this.dataset.date;
+                };
+                calendarGrid.appendChild(cell);
+            }
+        }
+
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar(currentDate);
+        });
+
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar(currentDate);
+        });
+
+        document.getElementById('add-event').addEventListener('click', () => {
+            const date = document.getElementById('event-date').value;
+            const time = document.getElementById('event-time').value;
+            const title = document.getElementById('event-title').value;
+            
+            if (date && time && title) {
+                alert(`Event added: ${title} on ${date} at ${time}`);
+                // You can extend this to store events in a more permanent way
+            } else {
+                alert('Please fill out all fields');
+            }
+        });
+
+        renderCalendar(currentDate);
+    </script>
+</body>
+</html>

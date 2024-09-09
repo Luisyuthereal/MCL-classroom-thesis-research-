@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Messenger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: #007bff;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .sidebar button:hover {
+            background: #0056b3;
+        }
+
+        .sidebar button.active {
+            background: #0056b3;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .messenger {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+
+        .messages .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #e9ecef;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages .message .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .input-container input, .input-container textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-container button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-container button:hover {
+            background: #0056b3;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <button id="btn-new-mails" class="active">New Mails</button>
+            <button id="btn-old-mails">Old Mails</button>
+            <button id="btn-read-mails">Read Mails</button>
+            <button id="btn-important-mails">Important Mails</button>
+        </div>
+        <div class="main-content">
+            <div class="messenger">
+                <div id="messages" class="messages">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="input-container">
+                    <input type="email" id="email-to" placeholder="Recipient Email">
+                    <input type="text" id="subject" placeholder="Subject">
+                    <textarea id="message-body" rows="5" placeholder="Type your message..."></textarea>
+                    <button id="send-button">Send Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let messages = {
+            new: [],
+            old: [],
+            read: [],
+            important: []
+        };
+
+        function displayMessages(category) {
+            const messagesContainer = document.getElementById('messages');
+            messagesContainer.innerHTML = '';
+
+            messages[category].forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message');
+                messageElement.innerHTML = `
+                    <div class="username">${message.from}:</div>
+                    <div><strong>To:</strong> ${message.to}</div>
+                    <div><strong>Subject:</strong> ${message.subject}</div>
+                    <div><strong>Message:</strong> ${message.body}</div>
+                `;
+                messagesContainer.appendChild(messageElement);
+            });
+
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        document.getElementById('btn-new-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            displayMessages('new');
+        });
+
+        document.getElementById('btn-old-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            displayMessages('old');
+        });
+
+        document.getElementById('btn-read-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            displayMessages('read');
+        });
+
+        document.getElementById('btn-important-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            displayMessages('important');
+        });
+
+        document.getElementById('send-button').addEventListener('click', function() {
+            const emailTo = document.getElementById('email-to').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const messageBody = document.getElementById('message-body').value.trim();
+
+            if (emailTo === '' || subject === '' || messageBody === '') {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            const message = {
+                from: 'You',
+                to: emailTo,
+                subject: subject,
+                body: messageBody
+            };
+
+            // Simulate adding to "New Mails" category
+            messages.new.push(message);
+
+            // Optionally clear input fields and switch to New Mails view
+            document.getElementById('email-to').value = '';
+            document.getElementById('subject').value = '';
+            document.getElementById('message-body').value = '';
+            displayMessages('new');
+        });
+
+        // Initial display of new mails
+        displayMessages('new');
+    </script>
+</body>
+</html>

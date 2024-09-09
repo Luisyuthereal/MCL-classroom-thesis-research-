@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Educational Website</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Mapua Malayan Colleges Laguna</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h2>Interactive Quiz</h2>
+            <form id="quiz-form">
+                <label for="question1">What is 2 + 2?</label>
+                <input type="text" id="question1" name="question1">
+                <button type="button" onclick="checkAnswer()">Submit</button>
+            </form>
+            <p id="result"></p>
+        </section>
+
+        <section id="about">
+            <h2>About Us</h2>
+            <p>This website provides educational resources.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Email us at: <a href="mailto:info@example.com">info@example.com</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Educational Website</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>

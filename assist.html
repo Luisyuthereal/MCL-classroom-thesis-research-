@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Tool & Email Messenger</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #007bff;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .sidebar button:hover {
+            background: #0056b3;
+        }
+
+        .sidebar button.active {
+            background: #0056b3;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            border-left: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .contact-form {
+            display: none;
+        }
+
+        .contact-form.active {
+            display: block;
+        }
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .contact-form button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .contact-form button:hover {
+            background: #0056b3;
+        }
+
+        h2 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+
+        .messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+
+        .messages .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            background: #e9ecef;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages .message .username {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+        }
+
+        .input-container input, .input-container textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-container button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-container button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <button id="btn-help-topics" class="active">Help Topics</button>
+            <button id="btn-faq">FAQs</button>
+            <button id="btn-contact-support">Contact Support</button>
+            <button id="btn-new-mails">New Mails</button>
+            <button id="btn-old-mails">Old Mails</button>
+            <button id="btn-read-mails">Read Mails</button>
+            <button id="btn-important-mails">Important Mails</button>
+        </div>
+        <div class="main-content">
+            <!-- Help and Email Interface -->
+            <div id="help-topics" class="content active">
+                <h2>Help Topics</h2>
+                <h3>Getting Started</h3>
+                <p>Welcome to our website! Here’s how to get started:</p>
+                <ul>
+                    <li>Sign up for an account by clicking on the "Sign Up" button at the top right corner.</li>
+                    <li>Complete your profile by entering your details in the "Profile" section.</li>
+                    <li>Explore our features by navigating through the different sections in the main menu.</li>
+                </ul>
+
+                <h3>Managing Your Account</h3>
+                <p>To manage your account:</p>
+                <ul>
+                    <li>Go to the "Account Settings" page to update your personal information.</li>
+                    <li>Change your password by selecting the "Change Password" option in the settings.</li>
+                    <li>For privacy settings, visit the "Privacy" tab in your account settings.</li>
+                </ul>
+
+                <h3>Using Our Features</h3>
+                <p>Our website offers a range of features:</p>
+                <ul>
+                    <li>Use the search bar to find specific content quickly.</li>
+                    <li>Access support resources by clicking on the "Help" section in the main menu.</li>
+                    <li>Track your activity and progress through your dashboard.</li>
+                </ul>
+            </div>
+            <div id="faqs" class="content">
+                <h2>FAQs</h2>
+                <ul>
+                    <li><strong>How do I reset my password?</strong> Go to the "Account Settings" page and click on "Forgot Password." Follow the instructions to reset your password.</li>
+                    <li><strong>Where can I find my purchase history?</strong> Your purchase history can be found under the "Order History" section in your account dashboard.</li>
+                    <li><strong>What should I do if I encounter a technical issue?</strong> Contact our support team through the "Contact Support" section, and provide details of the issue you’re facing.</li>
+                    <li><strong>How do I update my payment information?</strong> Navigate to the "Billing" section in your account settings and update your payment details there.</li>
+                </ul>
+            </div>
+            <div id="contact-support" class="contact-form">
+                <h2>Contact Support</h2>
+                <form id="contact-form">
+                    <input type="text" id="name" placeholder="Your Name" required>
+                    <input type="email" id="email" placeholder="Your Email" required>
+                    <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+            <div id="email-interface" class="content">
+                <h2>Email Interface</h2>
+                <div class="messages" id="messages">
+                    <!-- Messages will be displayed here -->
+                </div>
+                <div class="input-container">
+                    <input type="email" id="email-to" placeholder="Recipient Email">
+                    <input type="text" id="subject" placeholder="Subject">
+                    <textarea id="message-body" rows="5" placeholder="Type your message..."></textarea>
+                    <button id="send-button">Send Email</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        document.getElementById('btn-help-topics').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-faq').classList.remove('active');
+            document.getElementById('btn-contact-support').classList.remove('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            document.getElementById('help-topics').classList.add('active');
+            document.getElementById('faqs').classList.remove('active');
+            document.getElementById('contact-support').classList.remove('active');
+            document.getElementById('email-interface').classList.remove('active');
+        });
+
+        document.getElementById('btn-faq').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-help-topics').classList.remove('active');
+            document.getElementById('btn-contact-support').classList.remove('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            document.getElementById('faqs').classList.add('active');
+            document.getElementById('help-topics').classList.remove('active');
+            document.getElementById('contact-support').classList.remove('active');
+            document.getElementById('email-interface').classList.remove('active');
+        });
+
+        document.getElementById('btn-contact-support').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-help-topics').classList.remove('active');
+            document.getElementById('btn-faq').classList.remove('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            document.getElementById('contact-support').classList.add('active');
+            document.getElementById('help-topics').classList.remove('active');
+            document.getElementById('faqs').classList.remove('active');
+            document.getElementById('email-interface').classList.remove('active');
+        });
+
+        document.getElementById('btn-new-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-help-topics').classList.remove('active');
+            document.getElementById('btn-faq').classList.remove('active');
+            document.getElementById('btn-contact-support').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            document.getElementById('messages').innerHTML = '<p>Displaying new mails...</p>';
+            document.getElementById('email-interface').classList.add('active');
+            document.getElementById('help-topics').classList.remove('active');
+            document.getElementById('faqs').classList.remove('active');
+            document.getElementById('contact-support').classList.remove('active');
+        });
+
+        document.getElementById('btn-old-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-help-topics').classList.remove('active');
+            document.getElementById('btn-faq').classList.remove('active');
+            document.getElementById('btn-contact-support').classList.remove('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            document.getElementById('messages').innerHTML = '<p>Displaying old mails...</p>';
+            document.getElementById('email-interface').classList.add('active');
+            document.getElementById('help-topics').classList.remove('active');
+            document.getElementById('faqs').classList.remove('active');
+            document.getElementById('contact-support').classList.remove('active');
+        });
+
+        document.getElementById('btn-read-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-help-topics').classList.remove('active');
+            document.getElementById('btn-faq').classList.remove('active');
+            document.getElementById('btn-contact-support').classList.remove('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-important-mails').classList.remove('active');
+            document.getElementById('messages').innerHTML = '<p>Displaying read mails...</p>';
+            document.getElementById('email-interface').classList.add('active');
+            document.getElementById('help-topics').classList.remove('active');
+            document.getElementById('faqs').classList.remove('active');
+            document.getElementById('contact-support').classList.remove('active');
+        });
+
+        document.getElementById('btn-important-mails').addEventListener('click', function() {
+            this.classList.add('active');
+            document.getElementById('btn-help-topics').classList.remove('active');
+            document.getElementById('btn-faq').classList.remove('active');
+            document.getElementById('btn-contact-support').classList.remove('active');
+            document.getElementById('btn-new-mails').classList.remove('active');
+            document.getElementById('btn-old-mails').classList.remove('active');
+            document.getElementById('btn-read-mails').classList.remove('active');
+            document.getElementById('messages').innerHTML = '<p>Displaying important mails...</p>';
+            document.getElementById('email-interface').classList.add('active');
+            document.getElementById('help-topics').classList.remove('active');
+            document.getElementById('faqs').classList.remove('active');
+            document.getElementById('contact-support').classList.remove('active');
+        });
+
+        // Handle contact form submission
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Your message has been sent.');
+            document.getElementById('contact-form').reset();
+        });
+
+        // Handle email sending
+        document.getElementById('send-button').addEventListener('click', function() {
+            const emailTo = document.getElementById('email-to').value;
+            const subject = document.getElementById('subject').value;
+            const messageBody = document.getElementById('message-body').value;
+
+            if (emailTo && subject && messageBody) {
+                alert(`Email sent to ${emailTo} with subject "${subject}".`);
+                document.getElementById('email-to').value = '';
+                document.getElementById('subject').value = '';
+                document.getElementById('message-body').value = '';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grades Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sidebar {
+            width: 200px;
+            background: #007bff;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .sidebar button:hover {
+            background: #0056b3;
+        }
+
+        .sidebar button.active {
+            background: #0056b3;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            border-left: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        h2 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container input, .input-container select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-container button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-container button:hover {
+            background: #0056b3;
+        }
+
+        .view-only {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <button id="btn-teacher" class="active">Teacher View</button>
+            <button id="btn-student">Student View</button>
+        </div>
+        <div class="main-content">
+            <div id="teacher-view" class="content active">
+                <h2>Input Grades</h2>
+                <div class="input-container">
+                    <input type="text" id="student-name" placeholder="Student Name">
+                    <input type="text" id="subject" placeholder="Subject">
+                    <input type="number" id="grade" placeholder="Grade" min="0" max="100">
+                    <button id="submit-grade">Submit Grade</button>
+                </div>
+                <h2>Grades Table</h2>
+                <table id="grades-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Grades will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="student-view" class="content">
+                <h2>Your Grades</h2>
+                <table id="student-grades-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Grades will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const teacherView = document.getElementById('teacher-view');
+        const studentView = document.getElementById('student-view');
+        const btnTeacher = document.getElementById('btn-teacher');
+        const btnStudent = document.getElementById('btn-student');
+        const submitGradeButton = document.getElementById('submit-grade');
+        const gradesTable = document.getElementById('grades-table').getElementsByTagName('tbody')[0];
+        const studentGradesTable = document.getElementById('student-grades-table').getElementsByTagName('tbody')[0];
+
+        let grades = [];
+
+        // Function to switch views
+        function switchView(view) {
+            if (view === 'teacher') {
+                teacherView.classList.add('active');
+                studentView.classList.remove('active');
+                btnTeacher.classList.add('active');
+                btnStudent.classList.remove('active');
+            } else if (view === 'student') {
+                teacherView.classList.remove('active');
+                studentView.classList.add('active');
+                btnTeacher.classList.remove('active');
+                btnStudent.classList.add('active');
+                // Populate student grades table
+                populateStudentGrades();
+            }
+        }
+
+        // Function to populate grades table
+        function populateGradesTable() {
+            gradesTable.innerHTML = '';
+            grades.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${entry.name}</td><td>${entry.subject}</td><td>${entry.grade}</td>`;
+                gradesTable.appendChild(row);
+            });
+        }
+
+        // Function to populate student grades table
+        function populateStudentGrades() {
+            studentGradesTable.innerHTML = '';
+            const studentName = prompt('Enter your name to see your grades:');
+            const studentGrades = grades.filter(entry => entry.name === studentName);
+            studentGrades.forEach(entry => {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${entry.subject}</td><td>${entry.grade}</td>`;
+                studentGradesTable.appendChild(row);
+            });
+        }
+
+        // Handle grade submission
+        submitGradeButton.addEventListener('click', function() {
+            const studentName = document.getElementById('student-name').value;
+            const subject = document.getElementById('subject').value;
+            const grade = document.getElementById('grade').value;
+
+            if (studentName && subject && grade) {
+                grades.push({ name: studentName, subject: subject, grade: grade });
+                populateGradesTable();
+                document.getElementById('student-name').value = '';
+                document.getElementById('subject').value = '';
+                document.getElementById('grade').value = '';
+            } else {
+                alert('Please fill in all fields.');
+            }
+        });
+
+        // Initial view
+        switchView('teacher');
+
+        // Event listeners for view switching
+        btnTeacher.addEventListener('click', () => switchView('teacher'));
+        btnStudent.addEventListener('click', () => switchView('student'));
+    </script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #007bff;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background 0.3s;
+        }
+
+        .sidebar button:hover {
+            background: #0056b3;
+        }
+
+        .sidebar button.active {
+            background: #0056b3;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            border-left: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        h2 {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .input-container {
+            margin-bottom: 20px;
+        }
+
+        .input-container input, .input-container textarea, .input-container select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .input-container button {
+            padding: 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-container button:hover {
+            background: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <button id="btn-math" class="active">Math</button>
+            <button id="btn-science">Science</button>
+            <button id="btn-computer-programming">Computer Programming</button>
+            <button id="btn-literature">Literature</button>
+            <button id="btn-animation">Animation</button>
+            <button id="btn-language">Language</button>
+        </div>
+        <div class="main-content">
+            <div id="math" class="content active">
+                <h2>Math</h2>
+                <button id="math-tasks-button">Tasks</button>
+                <button id="math-modules-button">Modules</button>
+                <button id="math-records-button">Records</button>
+                
+                <div id="math-tasks" class="sub-content">
+                    <h3>Tasks</h3>
+                    <div class="input-container">
+                        <input type="text" id="math-task-title" placeholder="Task Title">
+                        <textarea id="math-task-description" rows="4" placeholder="Task Description"></textarea>
+                        <button id="submit-math-task">Post Task</button>
+                    </div>
+                    <table id="math-tasks-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Tasks will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="math-modules" class="sub-content" style="display:none;">
+                    <h3>Modules</h3>
+                    <div class="input-container">
+                        <input type="text" id="math-module-title" placeholder="Module Title">
+                        <textarea id="math-module-description" rows="4" placeholder="Module Description"></textarea>
+                        <button id="submit-math-module">Post Module</button>
+                    </div>
+                    <table id="math-modules-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Modules will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="math-records" class="sub-content" style="display:none;">
+                    <h3>Records</h3>
+                    <table id="math-records-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Records will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Repeat similar structure for other subjects -->
+            <div id="science" class="content">
+                <h2>Science</h2>
+                <button id="science-tasks-button">Tasks</button>
+                <button id="science-modules-button">Modules</button>
+                <button id="science-records-button">Records</button>
+                
+                <div id="science-tasks" class="sub-content">
+                    <h3>Tasks</h3>
+                    <div class="input-container">
+                        <input type="text" id="science-task-title" placeholder="Task Title">
+                        <textarea id="science-task-description" rows="4" placeholder="Task Description"></textarea>
+                        <button id="submit-science-task">Post Task</button>
+                    </div>
+                    <table id="science-tasks-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Tasks will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="science-modules" class="sub-content" style="display:none;">
+                    <h3>Modules</h3>
+                    <div class="input-container">
+                        <input type="text" id="science-module-title" placeholder="Module Title">
+                        <textarea id="science-module-description" rows="4" placeholder="Module Description"></textarea>
+                        <button id="submit-science-module">Post Module</button>
+                    </div>
+                    <table id="science-modules-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Modules will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="science-records" class="sub-content" style="display:none;">
+                    <h3>Records</h3>
+                    <table id="science-records-table">
+                        <thead>
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Records will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Add similar sections for other subjects: Computer Programming, Literature, Animation, and Language -->
+
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        function switchSubject(subject) {
+            document.querySelectorAll('.content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.sidebar button').forEach(button => button.classList.remove('active'));
+
+            document.getElementById(subject).classList.add('active');
+            document.getElementById(`btn-${subject.toLowerCase().replace(/\s+/g, '-')}`).classList.add('active');
+        }
+
+        function switchSection(subject, section) {
+            document.querySelectorAll(`#${subject} .sub-content`).forEach(content => content.style.display = 'none');
+            document.getElementById(`${subject}-${section}`).style.display = 'block';
+        }
+
+        document.querySelectorAll('.sidebar button').forEach(button => {
+            button.addEventListener('click', function() {
+                switchSubject(this.id.replace('btn-', ''));
+            });
+        });
+
+        document.querySelectorAll('.sub-content button').forEach(button => {
+            button.addEventListener('click', function() {
+                const [subject, section] = this.id.split('-').slice(0, 2);
+                switchSection(subject, section);
+            });
+        });
+
+        // Functionality for posting tasks and modules
+        function handlePost(subject, section) {
+            document.getElementById(`submit-${subject}-${section}`).addEventListener('click', function() {
+                const title = document.getElementById(`${subject}-${section}-title`).value;
+                const description = document.getElementById(`${subject}-${section}-description`).value;
+
+                if (title && description) {
+                    const tableBody = document.getElementById(`${subject}-${section}s-table`).getElementsByTagName('tbody')[0];
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td>${title}</td><td>${description}</td>`;
+                    tableBody.appendChild(row);
+
+                    document.getElementById(`${subject}-${section}-title`).value = '';
+                    document.getElementById(`${subject}-${section}-description`).value = '';
+                } else {
+                    alert('Please fill in all fields.');
+                }
+            });
+        }
+
+        // Attach handlers for each subject
+        ['math', 'science'].forEach(subject => {
+            ['task', 'module'].forEach(section => {
+                handlePost(subject, section);
+            });
+        });
+
+        // Initialize
+        switchSubject('math');
+    </script>
+</body>
+</html>

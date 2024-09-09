@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Stream</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .nav-bar button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .nav-bar button.active {
+            background-color: #0056b3;
+        }
+
+        .content-area {
+            width: 80%;
+            max-width: 800px;
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-area h2 {
+            margin-top: 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <button id="btn-assignments" class="active">Assignments</button>
+        <button id="btn-missing">Missing</button>
+        <button id="btn-completed">Completed</button>
+    </div>
+
+    <div id="content-assignments" class="content-area">
+        <h2>Assignments</h2>
+        <p>No assignments due at the moment.</p>
+    </div>
+
+    <div id="content-missing" class="content-area hidden">
+        <h2>Missing</h2>
+        <p>No missing items reported.</p>
+    </div>
+
+    <div id="content-completed" class="content-area hidden">
+        <h2>Completed</h2>
+        <p>No completed tasks to display.</p>
+    </div>
+
+    <script>
+        document.getElementById('btn-assignments').addEventListener('click', function() {
+            showContent('content-assignments', this);
+        });
+
+        document.getElementById('btn-missing').addEventListener('click', function() {
+            showContent('content-missing', this);
+        });
+
+        document.getElementById('btn-completed').addEventListener('click', function() {
+            showContent('content-completed', this);
+        });
+
+        function showContent(contentId, activeButton) {
+            // Hide all content sections
+            document.querySelectorAll('.content-area').forEach(function(content) {
+                content.classList.add('hidden');
+            });
+
+            // Show the selected content
+            document.getElementById(contentId).classList.remove('hidden');
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.nav-bar button').forEach(function(button) {
+                button.classList.remove('active');
+            });
+
+            // Add active class to the clicked button
+            activeButton.classList.add('active');
+        }
+
+        // Show the initial content
+        showContent('content-assignments', document.getElementById('btn-assignments'));
+    </script>
+</body>
+</html>
